@@ -15,6 +15,7 @@ public class MovieDB implements Parcelable{
     private String mRating;
     private String mOverview;
     private String mReleaseDate;
+    private boolean mFavorite;
 
     public MovieDB() {
     }
@@ -37,6 +38,7 @@ public class MovieDB implements Parcelable{
         mRating = in.readString();
         mOverview = in.readString();
         mReleaseDate = in.readString();
+        mFavorite = in.readByte() != 0;
     }
 
     public static final Creator<MovieDB> CREATOR = new Creator<MovieDB>() {
@@ -74,6 +76,8 @@ public class MovieDB implements Parcelable{
     public void setmReleaseDate(String mReleaseDate) {
         this.mReleaseDate = mReleaseDate;}
 
+    public void setFavorite(Boolean mFavorite){ this.mFavorite = mFavorite; }
+
     public String getmReleaseDate() {
         return mReleaseDate;    }
 
@@ -97,6 +101,8 @@ public class MovieDB implements Parcelable{
         return mOverview;
     }
 
+    public boolean getFavorite() { return mFavorite; }
+
     @Override
     public int describeContents() {
         return 0;
@@ -110,5 +116,6 @@ public class MovieDB implements Parcelable{
         dest.writeString(mRating);
         dest.writeString(mOverview);
         dest.writeString(mReleaseDate);
+        dest.writeByte((byte)(mFavorite ? 1 : 0));
     }
 }
