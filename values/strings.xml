@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">"Popular Movies "</string>
+    <string name="error">No Internet Connection</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="fave">Fave</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_to_fave">Add To Fave</string>
+    <string name="myfave">MyFave</string>
+</resources>
