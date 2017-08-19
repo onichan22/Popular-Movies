@@ -18,7 +18,7 @@ public class NetworkUtils {
             "https://api.themoviedb.org/3/movie";
 
     final static String PARAM_KEY = "api_key";
-    final static String api_key = "0a2476132d293d310eb1f5839dd14f8a";
+    final static String api_key = "-------";
 
 
     final static String PARAM_SORT = "sort";
