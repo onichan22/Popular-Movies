@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +43,8 @@ public class MovieDetails extends AppCompatActivity implements AnAdapter.AnAdapt
 
     private static final String TRAILER_TYPE = "trailer";
     private static final String REVIEW_TYPE = "review";
+
+    ToggleButton toggleFave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +82,11 @@ public class MovieDetails extends AppCompatActivity implements AnAdapter.AnAdapt
 
         makeSearchQuery(mMovie.getMovieId());
 
-        final ToggleButton toggleFave = (ToggleButton) findViewById(R.id.addToFavorites);
+        toggleFave = (ToggleButton) findViewById(R.id.addToFavorites);
         boolean isFavorite = mMovie.getFavorite();
         toggleFave.setChecked(isFavorite);
 
-        toggleFave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+/*        toggleFave.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     addMovieToFavorites();
@@ -96,7 +97,7 @@ public class MovieDetails extends AppCompatActivity implements AnAdapter.AnAdapt
                     toggleFave.setChecked(false);
                 }
             }
-        });
+        });*/
 
     }
 
@@ -204,14 +205,20 @@ public class MovieDetails extends AppCompatActivity implements AnAdapter.AnAdapt
 
     @Override
     protected void onStop() {
-        super.onStop();
-
-        if(!mMovie.getFavorite()){
+       /* if(!mMovie.getFavorite()){
             Uri uri = FavoriteMoviesContract.FavoriteMovies.CONTENT_URI;
             uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
 
             getContentResolver().delete(uri, null, null);
 
+        }*/
+        if(toggleFave.isChecked()){
+            addMovieToFavorites();
+        }else{
+            Uri uri = FavoriteMoviesContract.FavoriteMovies.CONTENT_URI;
+            uri = uri.buildUpon().appendPath(mMovie.getMovieId()).build();
+            getContentResolver().delete(uri, null, null);
         }
+        super.onStop();
     }
 }

@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<Cursor>(this) {
+        return new CursorLoader(this) {
             Cursor mCursor = null;
             @Override
             protected void onStartLoading() {
@@ -190,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             //ArrayList <MovieDB> movies = new ArrayList<MovieDB>();
             mFavemovies.clear();
             mMovieId.clear();
-            try {
                 while (movieDataResults.moveToNext()) {
                     //Toast.makeText(getBaseContext(), movieDataResults.getString(1), Toast.LENGTH_LONG).show();
                     MovieDB aFaveMovie = new MovieDB(movieDataResults.getString(2),
@@ -203,10 +202,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     mMovieId.add(aFaveMovie.getMovieId().toString());
 
                 }
-            } finally {
-                movieDataResults.close();
-                //Toast.makeText(getBaseContext(), "onPostLoadFinished:"+ mMovieId.size(), Toast.LENGTH_LONG).show();
-            }
+
             //mMovieAdapter.setMovieData(mFavemovies);
         }
     }
@@ -290,20 +286,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     protected void onResume() {
+        //super.onResume();
+        mFavemovies.clear();
+        mMovieId.clear();
+        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
         super.onResume();
-        mFavemovies.clear();
-        mMovieId.clear();
-        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        mFavemovies.clear();
-        mMovieId.clear();
-        //getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
-        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
-        //mMovieAdapter.setMovieData(mFavemovies);
     }
 
     @Override
